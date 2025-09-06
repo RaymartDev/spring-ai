@@ -11,15 +11,39 @@ public class AiController {
 
     private final ChatClient chatClient;
 
+    // Accept both profession and question in a DTO (cleaner than raw Map)
+    public static class AdviceRequest {
+        private String profession;
+        private String question;
+
+        public String getProfession() {
+            return profession;
+        }
+
+        public void setProfession(String profession) {
+            this.profession = profession;
+        }
+
+        public String getQuestion() {
+            return question;
+        }
+
+        public void setQuestion(String question) {
+            this.question = question;
+        }
+    }
+
     public AiController(ChatClient chatClient) {
         this.chatClient = chatClient;
     }
     @PostMapping("/sql")
-    public String textToSql(@RequestBody String question) {
+    public String textToSql(@RequestBody AdviceRequest request) {
+        String profession = request.getProfession();
+        String question = request.getQuestion();
 
         return chatClient.prompt()
-                .system("You are a professional PostgresSQL developer / analyst     that can give advice")
-                .user("Give advice how to obtain this: " + question)
+                .system("You are a professional " + profession + " that can give advice.")
+                .user("Give advice on: " + question)
                 .call()
                 .content();
 

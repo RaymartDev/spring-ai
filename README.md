@@ -24,10 +24,20 @@ spring.ai.openai.chat.options.model=gpt-4o-mini
 ---
 
 ## 📡 API Usage
-Endpoint
+### Endpoint
 ```
 POST /api/ai/sql
 ```
+### Request Body
 ```json
-"Get all employees who joined after 2021"
+{
+  "profession": "PostgresSQL Developer",
+  "question": "Get all employees who joined after 2021"
+}
+```
+### Example Response
+```json
+{
+  "advice": "You can use a SQL query like: SELECT * FROM employees WHERE join_date > '2021-12-31';"
+}
 ```
